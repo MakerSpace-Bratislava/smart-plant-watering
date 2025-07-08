@@ -1,5 +1,7 @@
 // --- Čísla pinov ---
-const int BUTTON_PIN = 2;  // Tlačidlo na polievanie rastliny
+const int BUTTON_PIN1 = 2;  // Tlačidlo na polievanie rastliny
+const int BUTTON_PIN2 = 3; // Tlačidlo na polievanie rastliny
+
 const int PUMP_PIN = 13;   // Čerpadlo na polievanie rastliny
 const int SENSOR_PIN = A0; // Senzor vlhkosti pôdy
 const int KNOB_PIN = A1;   // Otočný gombík (potenciometer) na nastavenie suchosti
@@ -14,9 +16,11 @@ bool pumpIsOn = false;           // Je čerpadlo práve zapnuté?
 
 void setup() {
   // --- Inicializácia pinov ---
-  pinMode(BUTTON_PIN, INPUT_PULLUP); // Tlačidlo je pripojené s pull-up rezistorom
+  pinMode(BUTTON_PIN1, INPUT_PULLUP); // Tlačidlo je pripojené s pull-up rezistorom
+  pinMode(BUTTON_PIN2, OUTPUT);
   pinMode(PUMP_PIN, OUTPUT);         // Čerpadlo je výstup
 
+  digitalWrite(BUTTON_PIN2, LOW);
   turnPumpOff(); // Istota, že čerpadlo je vypnuté
 
   Serial.begin(9600); // Spustíme komunikáciu s počítačom
@@ -32,9 +36,9 @@ void loop() {
   }
 
   // Polievanie tlacidlom
-  if (digitalRead(BUTTON_PIN) == LOW && !pumpIsOn) {
+  if (digitalRead(BUTTON_PIN1) == LOW && !pumpIsOn) {
     turnPumpOn();
-  } else if (digitalRead(BUTTON_PIN) == HIGH && pumpIsOn) {
+  } else if (digitalRead(BUTTON_PIN1) == HIGH && pumpIsOn) {
     turnPumpOff();
   }
 }
